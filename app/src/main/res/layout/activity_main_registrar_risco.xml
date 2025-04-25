@@ -6,118 +6,129 @@
     android:orientation="vertical"
     android:background="#FFFFFF">
 
-    <!-- Cabeçalho azul -->
+    <!-- Cabeçalho padrão -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#0000FF"
         android:gravity="center"
-        android:paddingVertical="50dp">
+        android:paddingVertical="30dp">
 
         <TextView
-            android:id="@+id/editCadastro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WorkSafe"
-            android:textSize="36sp"
+            android:textSize="28sp"
             android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
     </LinearLayout>
 
-    <!-- Formulário de cadastro -->
+    <!-- Conteúdo com ScrollView -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="24dp"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:padding="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center_horizontal">
 
+            <!-- Título da tela -->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cadastro"
-                android:textSize="24sp"
+                android:text="Registrar Risco"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="32dp" />
+                android:layout_marginBottom="24dp"/>
 
+            <!-- Campos do formulário -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editNome"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Nome"
+                android:hint="Título"
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitulo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editCPF"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="CPF"
+                android:hint="Descrição"
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescricao"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:layout_height="100dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editEmail"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="E-mail"
+                android:hint="Data (dd/mm/aaaa)"
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="date"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editSenha"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:hint="Senha"
+                android:layout_marginBottom="24dp"
+                android:hint="Categoria"
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCategoria"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Botões -->
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/btnCarregarFoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CADASTRAR"
+                android:layout_marginBottom="16dp"
+                android:text="CARREGAR FOTO"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:backgroundTint="#0000FF"
                 android:textColor="#FFFFFF"
-                android:paddingVertical="12dp"
-                android:layout_marginHorizontal="32dp" />
+                android:paddingVertical="12dp"/>
+
+            <Button
+                android:id="@+id/btnEnviar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ENVIAR"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:backgroundTint="#0000FF"
+                android:textColor="#FFFFFF"
+                android:paddingVertical="12dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
