@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.firebase.common.ktx)
     implementation("com.google.firebase-firestorektx:24.10.0")
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

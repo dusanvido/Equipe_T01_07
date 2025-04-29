@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -20,7 +19,7 @@
             android:text="WorkSafe"
             android:textSize="28sp"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Conteúdo com ScrollView -->
@@ -44,7 +43,7 @@
                 android:text="Registrar Risco"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="24dp" />
 
             <!-- Campos do formulário -->
             <com.google.android.material.textfield.TextInputLayout
@@ -56,9 +55,9 @@
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTitulo"
+                    android:id="@+id/editTitulo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -70,11 +69,11 @@
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDescricao"
+                    android:id="@+id/editDescricao"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:gravity="top"
-                    android:inputType="textMultiLine"/>
+                    android:inputType="textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -86,29 +85,30 @@
                 app:boxCornerRadius="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etData"
+                    android:id="@+id/editData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date"/>
+                    android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <!-- Nível de risco substituindo a Categoria -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nível de Risco"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerNivelRisco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="Categoria"
-                app:boxCornerRadius="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCategoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:backgroundTint="#0000FF" />
 
             <!-- Botões -->
             <Button
-                android:id="@+id/btnCarregarFoto"
+                android:id="@+id/carregarFotoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -117,10 +117,10 @@
                 android:textSize="16sp"
                 android:backgroundTint="#0000FF"
                 android:textColor="#FFFFFF"
-                android:paddingVertical="12dp"/>
+                android:paddingVertical="12dp" />
 
             <Button
-                android:id="@+id/btnEnviar"
+                android:id="@+id/enviarButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ENVIAR"
@@ -128,7 +128,8 @@
                 android:textSize="16sp"
                 android:backgroundTint="#0000FF"
                 android:textColor="#FFFFFF"
-                android:paddingVertical="12dp"/>
+                android:paddingVertical="12dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+

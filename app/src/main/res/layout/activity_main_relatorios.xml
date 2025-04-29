@@ -133,27 +133,27 @@
                 android:id="@+id/btnMostrarTodos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="MOSTRAR TODOS OS RELATÓRIOS"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:backgroundTint="#6287FF"
-                android:textColor="#FFFFFF"
-                android:paddingVertical="14dp"
                 android:layout_marginBottom="12dp"
-                android:elevation="4dp" />
+                android:backgroundTint="#0000FF"
+                android:elevation="4dp"
+                android:paddingVertical="14dp"
+                android:text="MOSTRAR TODOS OS RELATÓRIOS"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnRelatoriosFiltro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="APLICAR FILTROS"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:backgroundTint="#6287FF"
-                android:textColor="#FFFFFF"
-                android:paddingVertical="14dp"
                 android:layout_marginBottom="20dp"
-                android:elevation="4dp" />
+                android:backgroundTint="#0000FF"
+                android:elevation="4dp"
+                android:paddingVertical="14dp"
+                android:text="APLICAR FILTROS"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <!-- Resultado -->
             <TextView
