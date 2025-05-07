@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
 }
 
-buildscript{
+buildscript {
     dependencies {
         classpath("com.google.gms:google-services:4.4.2")
-}}
+    }
+}

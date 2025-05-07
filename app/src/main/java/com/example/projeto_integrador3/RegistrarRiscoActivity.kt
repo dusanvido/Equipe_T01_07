@@ -1,11 +1,8 @@
 package com.example.projeto_integrador3
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,6 +15,7 @@ class RegistrarRiscoActivity : AppCompatActivity() {
     private lateinit var spinnerNivelRisco: Spinner
     private lateinit var carregarFotoButton: Button
     private lateinit var enviarButton: Button
+    private lateinit var relatoriosButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +28,7 @@ class RegistrarRiscoActivity : AppCompatActivity() {
         spinnerNivelRisco = findViewById(R.id.spinnerNivelRisco)
         carregarFotoButton = findViewById(R.id.carregarFotoButton)
         enviarButton = findViewById(R.id.enviarButton)
+        relatoriosButton = findViewById(R.id.relatoriosButton)
 
         // Configurando o Spinner para selecionar o Nível de Risco
         val niveisRisco = listOf("Baixo", "Médio", "Alto")
@@ -37,9 +36,8 @@ class RegistrarRiscoActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerNivelRisco.adapter = adapter
 
-        // Ação ao clicar no botão "CARREGAR FOTO" (ainda precisa ser implementado)
+        // Ação ao clicar no botão "CARREGAR FOTO"
         carregarFotoButton.setOnClickListener {
-            // Ação para carregar uma foto - Não implementada no momento
             Toast.makeText(this, "Função de carregar foto não implementada", Toast.LENGTH_SHORT).show()
         }
 
@@ -53,7 +51,6 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             if (titulo.isNotEmpty() && descricao.isNotEmpty() && data.isNotEmpty()) {
                 val db = FirebaseFirestore.getInstance()
 
-                // Criando o objeto de risco para salvar no Firebase Firestore
                 val risco = hashMapOf(
                     "titulo" to titulo,
                     "descricao" to descricao,
@@ -62,7 +59,6 @@ class RegistrarRiscoActivity : AppCompatActivity() {
                     "usuarioid" to FirebaseAuth.getInstance().currentUser?.uid
                 )
 
-                // Enviando o risco para o Firestore
                 db.collection("riscos")
                     .add(risco)
                     .addOnSuccessListener {
@@ -75,7 +71,14 @@ class RegistrarRiscoActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // Ação ao clicar no botão "RELATÓRIOS"
+        relatoriosButton.setOnClickListener {
+            val intent = Intent(this, RelatoriosActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
+
 
 

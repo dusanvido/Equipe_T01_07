@@ -18,7 +18,7 @@
         <activity android:name=".CadastroActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegistrarRiscoActivity" />
-
+        <activity android:name=".RelatoriosActivity" />
 
         <activity
             android:name=".InicioActivity"
@@ -35,3 +35,4 @@
     </application>
 
 </manifest>
+
