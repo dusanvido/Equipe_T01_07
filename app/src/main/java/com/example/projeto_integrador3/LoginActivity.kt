@@ -37,6 +37,9 @@ class LoginActivity : AppCompatActivity() {
 
         // Clique no botão ENTRAR
         loginButton.setOnClickListener {
+            // Teste simples de clique
+            Toast.makeText(this, "Clique detectado!", Toast.LENGTH_SHORT).show()
+
             val email = editEmail.text.toString().trim()
             val senha = editSenha.text.toString().trim()
 
@@ -80,14 +83,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (auth.currentUser != null) {
-            startActivity(Intent(this, RegistrarRiscoActivity::class.java))
-            finish()
-        }
-    }
-
+//    override fun onStart() {
+//        super.onStart()
+//        if (auth.currentUser != null) {
+//            startActivity(Intent(this, RegistrarRiscoActivity::class.java))
+//            finish()
+//        }
+//    }
 
     private fun showSnackbar(mensagem: String) {
         val snackbar = Snackbar.make(loginButton, mensagem, Snackbar.LENGTH_LONG)
