@@ -1,6 +1,7 @@
 package com.example.projeto_integrador3
 
 import android.os.Bundle
+import android.widget.Toast
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Toast.makeText(this, "Entrou na MainActivity!", Toast.LENGTH_SHORT).show()
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_login)
