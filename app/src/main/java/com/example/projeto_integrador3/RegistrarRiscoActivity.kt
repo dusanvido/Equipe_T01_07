@@ -14,6 +14,9 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.exifinterface.media.ExifInterface
+import android.util.Log
+import java.io.InputStream
 
 class RegistrarRiscoActivity : AppCompatActivity() {
 
@@ -76,6 +79,18 @@ class RegistrarRiscoActivity : AppCompatActivity() {
                     val storageRef = FirebaseStorage.getInstance().reference
                     val imageRef = storageRef.child("imagens/${UUID.randomUUID()}.jpg")
 
+                    var latitude: Double? = null
+                    var longitude: Double? = null
+
+                    try {
+                        val inputStream = contentResolver.openInputStream(photoUri)
+                        val coordenadas = inputStream?.let { extrairCoordenadasImagem(it) }
+                        latitude = coordenadas?.first
+                        longitude = coordenadas?.second
+                    } catch (e: Exception) {
+                        Log.e("EXIF", "Erro ao extrair coordenadas: ${e.message}")
+                    }
+
                     imageRef.putFile(photoUri)
                         .addOnSuccessListener {
                             imageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -84,7 +99,9 @@ class RegistrarRiscoActivity : AppCompatActivity() {
                                     descricao,
                                     data,
                                     nivelRisco,
-                                    uri.toString()
+                                    uri.toString(),
+                                    latitude,
+                                    longitude
                                 )
                             }
                         }
@@ -98,6 +115,8 @@ class RegistrarRiscoActivity : AppCompatActivity() {
                         descricao,
                         data,
                         nivelRisco,
+                        null,
+                        null,
                         null
                     )
                 }
@@ -170,6 +189,9 @@ class RegistrarRiscoActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        val inputStream = contentResolver.openInputStream(photoUri)
+        val (latitude, longitude) = inputStream?.let { extrairCoordenadasImagem(it) } ?: Pair(null, null)
+
         when (requestCode) {
             PICK_IMAGE_REQUEST -> {
                 if (resultCode == RESULT_OK && data != null && data.data != null) {
@@ -194,8 +216,10 @@ class RegistrarRiscoActivity : AppCompatActivity() {
         descricao: String,
         data: String,
         nivelRisco: String,
-        imagemUrl: String?
-    ) {
+        imagemUrl: String?,
+        latitude: Double?,
+        longitude: Double?
+    ){
         val db = FirebaseFirestore.getInstance()
 
         val risco = hashMapOf(
@@ -204,7 +228,9 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             "dataRegistro" to data,
             "nivelRisco" to nivelRisco,
             "usuarioid" to FirebaseAuth.getInstance().currentUser?.uid,
-            "imagemUrl" to imagemUrl
+            "imagemUrl" to imagemUrl,
+            "latitude" to latitude,
+            "longitude" to longitude
         )
 
         db.collection("riscos")
@@ -229,6 +255,22 @@ class RegistrarRiscoActivity : AppCompatActivity() {
         savedInstanceState.getString("photo_uri")?.let {
             photoUri = Uri.parse(it)
             photoUriInitialized = true
+        }
+    }
+
+    fun extrairCoordenadasImagem(inputStream: InputStream): Pair<Double?, Double?> {
+        return try {
+            val exif = ExifInterface(inputStream)
+
+            val latLong = FloatArray(2)
+            if (exif.getLatLong(latLong)) {
+                Pair(latLong[0].toDouble(), latLong[1].toDouble())
+            } else {
+                Pair(null, null)
+            }
+        } catch (e: Exception) {
+            Log.e("EXIF", "Erro ao ler coordenadas da imagem: ${e.message}")
+            Pair(null, null)
         }
     }
 }
