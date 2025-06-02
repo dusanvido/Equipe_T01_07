@@ -14,6 +14,12 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+
 
 class RegistrarRiscoActivity : AppCompatActivity() {
 
@@ -25,6 +31,9 @@ class RegistrarRiscoActivity : AppCompatActivity() {
     private lateinit var enviarButton: Button
     private lateinit var relatoriosButton: Button
     private lateinit var imageViewFoto: ImageView
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude: Double? = null
+    private var longitude: Double? = null
 
     private val PICK_IMAGE_REQUEST = 1
     private val CAMERA_REQUEST = 2
@@ -62,6 +71,8 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             // Abre diálogo para escolher entre Galeria ou Câmera
             escolherFoto()
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        obterLocalizacao()
 
         // Ação ao clicar no botão "ENVIAR"
         enviarButton.setOnClickListener {
@@ -69,6 +80,12 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             val descricao = editDescricao.text.toString()
             val data = editData.text.toString()
             val nivelRisco = spinnerNivelRisco.selectedItem.toString()
+
+            // Verifica se a localização já foi obtida
+            if (latitude == null || longitude == null) {
+                Toast.makeText(this, "Aguardando localização. Tente novamente em instantes.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             if (titulo.isNotEmpty() && descricao.isNotEmpty() && data.isNotEmpty()) {
                 if (photoUriInitialized) {
@@ -106,6 +123,7 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             }
         }
 
+
         // Ação ao clicar no botão "RELATÓRIOS"
         relatoriosButton.setOnClickListener {
             val intent = Intent(this, RelatoriosActivity::class.java)
@@ -125,6 +143,39 @@ class RegistrarRiscoActivity : AppCompatActivity() {
         }
         builder.show()
     }
+
+    private fun obterLocalizacao() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1001)
+            return
+        }
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                    enviarButton.isEnabled = true
+                } else {
+                    // Fallback para getCurrentLocation
+                    fusedLocationClient.getCurrentLocation(
+                        com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
+                        null
+                    ).addOnSuccessListener { currentLocation ->
+                        if (currentLocation != null) {
+                            latitude = currentLocation.latitude
+                            longitude = currentLocation.longitude
+                            enviarButton.isEnabled = true
+                        } else {
+                            Toast.makeText(this, "Não foi possível obter a localização atual", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+    }
+
 
     private fun abrirGaleria() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -204,8 +255,11 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             "dataRegistro" to data,
             "nivelRisco" to nivelRisco,
             "usuarioid" to FirebaseAuth.getInstance().currentUser?.uid,
-            "imagemUrl" to imagemUrl
+            "imagemUrl" to imagemUrl,
+            "latitude" to latitude,
+            "longitude" to longitude
         )
+
 
         db.collection("riscos")
             .add(risco)
@@ -231,4 +285,20 @@ class RegistrarRiscoActivity : AppCompatActivity() {
             photoUriInitialized = true
         }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1001) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                obterLocalizacao() // Tenta obter a localização novamente após permissão
+            } else {
+                Toast.makeText(this, "Permissão de localização negada", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }

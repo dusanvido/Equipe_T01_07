@@ -41,6 +41,7 @@ android {
 dependencies {
     // Firebase BOM (controla as versões automaticamente)
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
